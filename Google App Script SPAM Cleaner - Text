@@ -1,0 +1,130 @@
+var searchCriteria = [
+"goodday.website",
+"Logbook Loans", 
+"gassociety.co.uk",
+"worldvictories.com",
+"BingoSpecial",
+"Card in association with affiliate partner",
+"Look at my hot nude photos",
+"mm1.helthnews.net",
+"newmessageymc.com",
+"BONUS! Free Under Armour Samples",
+"easy2shops.tech",
+"Latin Dating",
+"dailybrief@huffingtonpost.com",
+"Jamie with The Compensation",
+"freenet.newtrajet.org",
+"pathshopping.com",
+"naturalvehicle.com",
+"TARGET® Surveys",
+"contact@bigboss007.net",
+"master.bigboss007.net",
+"timel4fivegrand.top",
+"notice.direct-shop.net",
+"CasinoSpecial",
+"select-mail.co.uk",
+"newdiamond.org",
+"master.biomedicale.net",
+"special-offers2017.net",
+"makewich17.org",
+"kwl8ekq5go.cu.cc",
+"hahhicumixair.w177.p2ninehell.top",
+"Top Life Insurance Carriers Offering Lower",
+"exclusive-bingo",
+
+"mail.bliver.org"
+];
+
+function RunSpamCleanupScript() {
+  DeleteJunkWithouJunkLabelInSpam_IdHeaderOrContent();
+  DeleteJunkWithouJunkLabelInSpam_From();
+  DeleteJunkWithouJunkLabelInSpam_Subject();
+  DeleteJunkInTrash();
+}
+
+function DeleteJunkWithouJunkLabelInSpam_IdHeaderOrContent() {                       
+  for (var j = 0; j < searchCriteria.length; j++) {  
+    
+    var threads = GmailApp.search("in:Spam " + searchCriteria[j]);
+    var me = Session.getActiveUser().getEmail();
+    // Logger.log("Found " + threads.length + " threads with 'Header ID or content:' " + searchCriteria[j]);
+
+    for (var i = threads.length -1; i >=0; i--) {
+      
+      var threadid=threads[i].getId();
+      // Logger.log("Removing thread " +i + ' of ' + threads.length + " Header ID or content: '" + searchCriteria[j] + "' with ID = " + threadid);
+    
+      try {
+        Gmail.Users.Threads.remove(me, threadid);
+      }
+      catch(err) {
+        Logger.log("Error " + err.message + " when removing thread with ID " + threadid);
+      };
+    }
+  }
+}
+
+function DeleteJunkWithouJunkLabelInSpam_From() {                       
+  for (var j = 0; j < searchCriteria.length; j++) {  
+    
+    var threads = GmailApp.search("in:Spam from: " + searchCriteria[j]);
+    var me = Session.getActiveUser().getEmail();
+    // Logger.log("Found " + threads.length + " threads with 'from' name " + searchCriteria[j]);
+
+    for (var i = threads.length -1; i >=0; i--) {
+      
+      var threadid=threads[i].getId();
+      // Logger.log("Removing thread " +i + ' of ' + threads.length + " from '" + searchCriteria[j] + "' with ID = " + threadid);
+    
+      try {
+        Gmail.Users.Threads.remove(me, threadid);
+      }
+      catch(err) {
+        Logger.log("Error " + err.message + " when removing thread with ID " + threadid);
+      };
+    }
+  }
+}
+
+function DeleteJunkWithouJunkLabelInSpam_Subject() {                       
+  for (var j = 0; j < searchCriteria.length; j++) {  
+    
+    var threads = GmailApp.search("in:Spam subject: " + searchCriteria[j]);
+    var me = Session.getActiveUser().getEmail();
+    // Logger.log("Found " + threads.length + " threads with 'subject' content " + searchCriteria[j]);
+
+    for (var i = threads.length -1; i >=0; i--) {
+      
+      var threadid=threads[i].getId();
+      // Logger.log("Removing thread " +i + ' of ' + threads.length + " with sujbect content '" + searchCriteria[j] + "' with ID = " + threadid);
+    
+      try {
+        Gmail.Users.Threads.remove(me, threadid);
+      }
+      catch(err) {
+        Logger.log("Error " + err.message + " when removing thread with ID " + threadid);
+      };
+    }
+  }
+}
+
+function DeleteJunkInTrash() {
+  var labelName = "Junk E-mail";
+  
+  var threads = GmailApp.search("in:trash label:" + labelName);
+  var me = Session.getActiveUser().getEmail();
+  // Logger.log("Found " + threads.length + " threads with 'label' " + labelName);
+
+  for (var i = threads.length -1; i >=0; i--) {
+    
+    var threadid=threads[i].getId();
+    // Logger.log("Removing thread " +i + ' of ' + threads.length + " from '" + labelName + "' with ID = " + threadid);
+    
+    try {
+      Gmail.Users.Threads.remove(me, threadid);
+    }
+    catch(err) {
+      Logger.log("Error " + err.message + " when removing thread with ID " + threadid);
+    };
+  }
+}
